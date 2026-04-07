@@ -53,7 +53,7 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT driver_obj, PUNICODE_STRING reg_path)
     // use macro for cleaner code
     PVOID proc = NT_CALL(PsGetCurrentProcess);
     
-    // flush caches (stealth operation)
+    // force TLB invalidation and cache flush across all processors
     nt.flush_caches(proc);
     
     return STATUS_SUCCESS;
