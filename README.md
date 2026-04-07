@@ -52,7 +52,7 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT driver_obj, PUNICODE_STRING reg_path)
     // Initialize
     g_nt = new nt();
     
-    if (!g_nt->ready())
+    if (!g_nt->base() != nullptr)
         return STATUS_UNSUCCESSFUL;
     
     // Call any ntoskrnl function
