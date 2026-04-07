@@ -36,3 +36,35 @@ project/
 ├── nox.hpp    # Base class for any module
 ├── nt.hpp     # ntoskrnl specialization
 └── driver.cpp # Your code
+```
+
+---
+
+## 🚀 Quick Start
+
+```cpp
+#include "nt.hpp"
+
+static nt* g_nt = nullptr;
+
+NTSTATUS DriverEntry(PDRIVER_OBJECT driver_obj, PUNICODE_STRING reg_path)
+{
+    // Initialize
+    g_nt = new nt();
+    
+    if (!g_nt->ready())
+        return STATUS_UNSUCCESSFUL;
+    
+    // Call any ntoskrnl function
+    PVOID current_process = g_nt->ps_get_current_process();
+    PVOID peb = g_nt->ps_get_process_peb(current_process);
+    
+    // Use macro for cleaner code
+    PVOID proc = NT_CALL(PsGetCurrentProcess);
+    
+    // Flush caches (stealth operation)
+    g_nt->flush_caches(proc);
+    
+    return STATUS_SUCCESS;
+}
+```
