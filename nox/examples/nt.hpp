@@ -30,11 +30,11 @@
 #define NT_HPP
 
 // specialized nt class for ntoskrnl operations
-class nt : public nox
+class nox_nt : public nox
 {
 public:
     // constructor - auto init with ntoskrnl
-    __forceinline nt() : nox(true) {}
+    __forceinline nox_nt() : nox(true) {}
 
     // ================ WRAPPER FUNCTIONS ================
 
@@ -275,5 +275,11 @@ public:
         return _InterlockedCompareExchange64(destination, exchange, comperand);
     }
 };
+
+inline nox_nt nt;
+
+#define NT_CALL(func, ...) nt.call<decltype(func)*>(#func, __VA_ARGS__)
+#define NT_EXPORT(name) nt.get_export(name)
+#define NT_MODULE(name) nt.get_module_base(name)
 
 #endif // NT_HPP
